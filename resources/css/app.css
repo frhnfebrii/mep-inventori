@@ -1,0 +1,29 @@
+@import '@fontsource/inter/index.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "flowbite/src/themes/default";
+
+    /* Custom scrollbars inside sidebar */
+    #sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+    #sidebar::-webkit-scrollbar-thumb {
+      background-color: rgba(107, 114, 128, 0.5);
+      border-radius: 3px;
+    }
+    /* Smooth width transition */
+    #sidebar {
+      transition: width 0.3s ease;
+    }
+    /* Smooth margin adjustment */
+    #mainContent {
+      transition: margin-left 0.3s ease;
+    }
+    /* Smooth text fade */
+    .sidebar-text {
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+  
