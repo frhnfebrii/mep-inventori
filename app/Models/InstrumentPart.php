@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Barangmasuk extends Model
+class InstrumentPart extends Model
 {
     use HasFactory;
 
@@ -14,5 +14,6 @@ class Barangmasuk extends Model
         'part_number',
         'brand',
         'quantity',
+        'unit'
     ];
 }

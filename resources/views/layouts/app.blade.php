@@ -8,8 +8,8 @@
   <title>@yield('title')</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body class="h-screen">
@@ -112,19 +112,6 @@
               <span class="ms-3 sidebar-text">Laporan</span>
             </a>
           </li>
-          <li class="p-2 hover:bg-gray-100 cursor-pointer">
-            <a href="/profil" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
-              <span class="ms-3 sidebar-text">Profil</span>
-            </a>
-          </li>
-          <li class="p-2 hover:bg-gray-100 cursor-pointer">
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" /><path d="M15 12h-12l3 -3" /><path d="M6 15l-3 -3" /></svg>
-              <span class="ms-3 sidebar-text">Logout</span>
-            </a>
-          </li>
-
         </ul>
       </div>
     </div>
@@ -132,21 +119,66 @@
     <!-- Main content area -->
     <div class="flex flex-col flex-1 overflow-auto">
       <!-- Navbar -->
-      <div class="font-sans font-bold h-16 bg-green-500 text-white flex items-center px-5 shrink-0">
-        <a href="/" class="flex ms-2 md:me-24">
+      <div class="font-sans font-bold h-16 bg-green-500 text-white flex items-center justify-between px-5 shrink-0">
+        <!-- Kiri: Logo + Nama -->
+        <a href="/" class="flex items-center">
           <img src="/images/logo-pt.png" class="h-8 me-3" alt="FlowBite Logo" />
-          <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">PT Multi Engineering Perkasa</span>
+          <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+            PT Multi Engineering Perkasa
+          </span>
         </a>
-      </div>
+
+        <!-- Kanan: Avatar -->
+        <div x-data="{ open: false }" class="relative">
+          <!-- Avatar Button -->
+          <div 
+            @click="open = !open"
+            class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full cursor-pointer hover:ring-2 hover:ring-white"
+          >
+            <svg 
+              class="absolute w-12 h-12 text-gray-400 -left-1" 
+              fill="currentColor" 
+              viewBox="0 0 20 20" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                fill-rule="evenodd" 
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" 
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- Dropdown Menu -->
+          <div 
+            x-show="open" 
+            @click.away="open = false" 
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="transform opacity-0 scale-95"
+            x-transition:enter-end="transform opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="transform opacity-100 scale-100"
+            x-transition:leave-end="transform opacity-0 scale-95"
+            class="absolute right-0 z-10 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            style="display: none;"
+          >
+            <div class="py-1" role="none">
+              <a href="/profil" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                Profil
+              </a>
+              <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                Keluar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div> <!-- Penutup div navbar -->
 
       <!-- Content -->
       <div class="flex-1 bg-gray-50 p-5 overflow-auto">
         @yield('mainContent')
       </div>
-    </div>
-
-  </div>
-
-
+    </div> <!-- Penutup div flex-col -->
+  </div> <!-- Penutup div flex h-screen -->
 </body>
 </html>

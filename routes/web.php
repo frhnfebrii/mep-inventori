@@ -2,12 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BarangMasukController;
-
+use App\Http\Controllers\ElectricalPartController;
+use App\Http\Controllers\InstrumentPartController;
+use App\Http\Controllers\ToolsPartController;
+use App\Http\Controllers\LinkCardController;
+use App\Http\Controllers\RiwayatBarangMasukController;
+use App\Http\Controllers\RiwayatBarangKeluarController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', function () {
+    \Illuminate\Support\Facades\Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+});
+
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -18,23 +29,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('dashboard');
     });
+    Route::get('/', [LinkCardController::class, 'index'])->name('dashboard');
 
-    Route::resource('barangmasuks', BarangMasukController::class);
-    Route::get('/electrical', [BarangMasukController::class, 'index'])->middleware('auth');
-    });
+    Route::resource('electrical', ElectricalPartController::class);
+    Route::resource('instrument', InstrumentPartController::class); 
+    Route::resource('tools', ToolsPartController::class);
+    Route::resource('masuk', RiwayatBarangMasukController::class);
+    Route::resource('keluar', RiwayatBarangKeluarController::class);
 
-    Route::get('/instrument', function () {
-        return view('instrument');
-    });
-    Route::get('/tools', function () {
-        return view('tools');
-    });
-    Route::get('/keluar', function () {
-        return view('keluar');
-    });
-    Route::get('/masuk', function () {
-        return view('masuk');
-    });
+
     Route::get('/restok', function () {
         return view('restok');
     });
@@ -44,4 +47,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profil', function () {
         return view('profil');
     });
-
+});
