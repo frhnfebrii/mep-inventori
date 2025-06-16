@@ -16,4 +16,13 @@ class InstrumentPart extends Model
         'quantity',
         'unit'
     ];
+     public function riwayatMasuk()
+    {
+        return $this->hasMany(RiwayatBarangMasuk::class, 'instrument_part_id');
+    }
+
+    public function riwayatKeluar()
+    {
+        return $this->hasMany(RiwayatBarangKeluar::class, 'instrument_part_id');
+    }
 }

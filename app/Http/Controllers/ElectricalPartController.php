@@ -21,11 +21,16 @@ class ElectricalPartController extends Controller
             'description' => 'required|string',
             'part_number' => 'required|string',
             'brand'       => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
         ]);
 
-        ElectricalPart::create($request->all());
+        ElectricalPart::create([
+            'description' => $request->description,
+            'part_number' => $request->part_number,
+            'brand'       => $request->brand,
+            'unit'        => $request->unit,
+            'quantity'    => 0, // Quantity fix 0 saat create
+        ]);
 
         return redirect()->route('electrical.index')->with('success', 'Data berhasil ditambahkan.');
     }
@@ -37,11 +42,16 @@ class ElectricalPartController extends Controller
             'description' => 'required|string',
             'part_number' => 'required|string',
             'brand'       => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
         ]);
 
-        $electrical->update($request->all());
+        $electrical->update([
+            'description' => $request->description,
+            'part_number' => $request->part_number,
+            'brand'       => $request->brand,
+            'unit'        => $request->unit,
+            // Quantity tidak diupdate di sini, karena diatur dari transaksi
+        ]);
 
         return redirect()->route('electrical.index')->with('success', 'Data berhasil diupdate.');
     }

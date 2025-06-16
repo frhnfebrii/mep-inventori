@@ -63,7 +63,7 @@
                 </div>
                 <div class="mb-2">
                     <label class="block">Quantity</label>
-                    <input type="number" name="quantity" min="0" id="tambahQuantity" class="w-full border p-2 rounded" required>
+                    <input type="number" name="quantity" min="0" id="tambahQuantity" class="w-full border p-2 rounded bg-gray-100 cursor-not-allowed" readonly>
                 </div>
                 <div class="mb-2">
                     <label class="block">Satuan</label>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="mb-2">
                     <label>Quantity</label>
-                    <input type="number" name="quantity" min="0" id="editQuantity" class="w-full border p-2 rounded">
+                    <input type="number" name="quantity" min="0" id="editQuantity" class="w-full border p-2 rounded bg-gray-100 cursor-not-allowed" readonly>
                 </div>
                 <div class="mb-2">
                     <label>Satuan</label>

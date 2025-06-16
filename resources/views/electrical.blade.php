@@ -63,7 +63,7 @@
                 </div>
                 <div class="mb-2">
                     <label class="block">Quantity</label>
-                    <input type="number" name="quantity" id="quantityTambah" min="0" class="w-full border p-2 rounded" required>
+                    <input type="number" name="quantity" id="quantityTambah" min="0" class="w-full border p-2 rounded bg-gray-100 cursor-not-allowed" readonly>
                 </div>
                 <div class="mb-2">
                     <label class="block">Satuan</label>
@@ -101,9 +101,9 @@
                     <input type="text" name="brand" id="editBrand" class="w-full border p-2 rounded">
                 </div>
                 <div class="mb-2">
-                    <label>Quantity</label>
-                    <input type="number" name="quantity" min="0" id="editQuantity" class="w-full border p-2 rounded">
-                </div>
+                <label>Quantity</label>
+                <input type="number" name="quantity" min="0" id="editQuantity" class="w-full border p-2 rounded bg-gray-100 cursor-not-allowed" readonly>
+            </div>
                 <div class="mb-2">
                     <label>Satuan</label>
                     <select name="unit" id="editUnit" class="w-full border p-2 rounded" required>

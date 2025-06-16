@@ -19,14 +19,20 @@ class ToolsPartController extends Controller
     {
         $request->validate([
             'description' => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
             'unit_price'  => 'required|numeric',
             'price'       => 'required|numeric',
             'remark'      => 'nullable|string',
         ]);
 
-        ToolsPart::create($request->all());
+        ToolsPart::create([
+            'description' => $request->description,
+            'unit'        => $request->unit,
+            'unit_price'  => $request->unit_price,
+            'price'       => $request->price,
+            'remark'      => $request->remark,
+            'quantity'    => 0,
+        ]);
 
         return redirect()->route('tools.index')->with('success', 'Data berhasil ditambahkan.');
     }
@@ -36,14 +42,20 @@ class ToolsPartController extends Controller
     {
         $request->validate([
             'description' => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
             'unit_price'  => 'required|numeric',
             'price'       => 'required|numeric',
             'remark'      => 'nullable|string',
         ]);
 
-        $tool->update($request->all());
+        $tool->update([
+            'description' => $request->description,
+            'unit'        => $request->unit,
+            'unit_price'  => $request->unit_price,
+            'price'       => $request->price,
+            'remark'      => $request->remark,
+            // Quantity tidak diupdate di sini, karena diatur dari transaksi
+        ]);
 
         return redirect()->route('tools.index')->with('success', 'Data berhasil diupdate.');
     }

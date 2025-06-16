@@ -13,12 +13,12 @@
     @endif
     
     <!-- Tombol Tambah Data -->
-    <button onclick="toggleModal('addModal')" class="bg-green-500 text-white px-4 py-2 rounded mb-4">Tambah Barang</button>
+    <button onclick="toggleModal('addModal')" class="bg-green-500 text-white px-4 py-2 rounded mb-4">Tambah Barang Masuk</button>
 
     <div class="bg-white px-4 py-4 border-t-4 border-green-500">    
         <!-- Table Data -->
         <table id="myTable" class="min-w-full border border-gray-200 display">
-            <thead>
+            <thead> 
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 border min-w-[40px] max-w-[60px] text-center">No</th>
                     <th class="px-4 py-2 border">Tanggal</th>
@@ -32,7 +32,7 @@
             <tbody class="bg-white">
                 @foreach ($riwayat as $item)
                 <tr>
-                    <td class="px-4 py-2 border text-center">{{ $loop->iteration }}</td>
+                    <td class="px-4 py  -2 border text-center">{{ $loop->iteration }}</td>
                     <td class="px-4 py-2 border">{{ $item->tanggal }}</td>
                     <td class="px-4 py-2 border">
                         @if($item->electrical_part_id) Electrical

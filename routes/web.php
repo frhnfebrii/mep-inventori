@@ -8,6 +8,7 @@ use App\Http\Controllers\ToolsPartController;
 use App\Http\Controllers\LinkCardController;
 use App\Http\Controllers\RiwayatBarangMasukController;
 use App\Http\Controllers\RiwayatBarangKeluarController;
+use App\Http\Controllers\LaporanController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -36,13 +37,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tools', ToolsPartController::class);
     Route::resource('masuk', RiwayatBarangMasukController::class);
     Route::resource('keluar', RiwayatBarangKeluarController::class);
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+
 
 
     Route::get('/restok', function () {
         return view('restok');
-    });
-    Route::get('/laporan', function () {
-        return view('laporan');
     });
     Route::get('/profil', function () {
         return view('profil');

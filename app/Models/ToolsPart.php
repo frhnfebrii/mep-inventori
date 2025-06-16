@@ -17,4 +17,15 @@ class ToolsPart extends Model
         'price',
         'remark',
     ];
+
+    public function riwayatMasuk()
+{
+    return $this->hasMany(RiwayatBarangMasuk::class, 'tools_part_id');
+}
+
+public function riwayatKeluar()
+{
+    return $this->hasMany(RiwayatBarangKeluar::class, 'tools_part_id');
+}
+
 }
