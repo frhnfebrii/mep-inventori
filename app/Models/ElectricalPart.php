@@ -16,4 +16,14 @@ class ElectricalPart extends Model
         'quantity',
         'unit'
     ];
+
+    public function riwayatMasuk()
+    {
+        return $this->hasMany(RiwayatBarangMasuk::class, 'electrical_part_id');
+    }
+
+    public function riwayatKeluar()
+    {
+        return $this->hasMany(RiwayatBarangKeluar::class, 'electrical_part_id');
+    }
 }

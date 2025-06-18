@@ -11,7 +11,7 @@ class InstrumentPartController extends Controller
     public function index()
     {
         $instrumentParts = InstrumentPart::all();
-        return view('instrument', compact('instrumentParts'));
+        return view('/admin/instrument', compact('instrumentParts'));
     }
 
     // Simpan data baru
@@ -21,13 +21,18 @@ class InstrumentPartController extends Controller
             'description' => 'required|string',
             'part_number' => 'required|string',
             'brand'       => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
         ]);
 
-        InstrumentPart::create($request->all());
+        InstrumentPart::create([
+            'description' => $request->description,
+            'part_number' => $request->part_number,
+            'brand'       => $request->brand,
+            'unit'        => $request->unit,
+            'quantity'    => 0, // Quantity fix 0 saat create
+        ]);
 
-        return redirect()->route('instrument.index')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
     }
 
     // Update data
@@ -37,13 +42,18 @@ class InstrumentPartController extends Controller
             'description' => 'required|string',
             'part_number' => 'required|string',
             'brand'       => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
         ]);
 
-        $instrument->update($request->all());
+        $instrument->update([
+            'description' => $request->description,
+            'part_number' => $request->part_number,
+            'brand'       => $request->brand,
+            'unit'        => $request->unit,
+            // Quantity tidak diupdate di sini, karena diatur dari transaksi
+        ]);
 
-        return redirect()->route('instrument.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->back()->with('success', 'Data berhasil diupdate.');
     }
 
     // Hapus data
@@ -51,6 +61,6 @@ class InstrumentPartController extends Controller
     {
         $instrument->delete();
 
-        return redirect()->route('instrument.index')->with('success', 'Data berhasil dihapus.');
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }

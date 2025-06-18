@@ -8,6 +8,7 @@ use App\Http\Controllers\ToolsPartController;
 use App\Http\Controllers\LinkCardController;
 use App\Http\Controllers\RiwayatBarangMasukController;
 use App\Http\Controllers\RiwayatBarangKeluarController;
+use App\Http\Controllers\DashboardExecutiveController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -20,31 +21,29 @@ Route::get('/logout', function () {
 });
 
 
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+// Admin Routes
+Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/admin/dashboard', [LinkCardController::class, 'index'])->name('admin.dashboard');
+    Route::resource('/admin/electrical', ElectricalPartController::class);
+    Route::resource('/admin/instrument', InstrumentPartController::class);
+    Route::resource('/admin/tools', ToolsPartController::class);
+    Route::resource('/admin/masuk', RiwayatBarangMasukController::class);
+    Route::resource('/admin/keluar', RiwayatBarangKeluarController::class);
 
-// Semua route yang butuh login dibungkus dalam grup middleware 'auth'
-Route::middleware(['auth'])->group(function () {
-
-    Route::get('/', function () {
-        return view('dashboard');
-    });
-    Route::get('/', [LinkCardController::class, 'index'])->name('dashboard');
-
-    Route::resource('electrical', ElectricalPartController::class);
-    Route::resource('instrument', InstrumentPartController::class); 
-    Route::resource('tools', ToolsPartController::class);
-    Route::resource('masuk', RiwayatBarangMasukController::class);
-    Route::resource('keluar', RiwayatBarangKeluarController::class);
-
-
-    Route::get('/restok', function () {
+    Route::get('/admin/restok', function () {
         return view('restok');
-    });
-    Route::get('/laporan', function () {
-        return view('laporan');
-    });
-    Route::get('/profil', function () {
-        return view('profil');
-    });
+    })->name('admin.restok');
+
+    Route::get('/admin/laporan', function () {
+        return view('admin.laporan');
+    })->name('admin.laporan');
+
+    Route::get('/admin/profil', function () {
+        return view('admin.profil');
+    })->name('admin.profil');
+});
+
+// Executive Routes
+Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':executive'])->group(function () {
+    Route::get('/executive/dashboard', [DashboardExecutiveController::class, 'index'])->name('executive.dashboard');;
 });

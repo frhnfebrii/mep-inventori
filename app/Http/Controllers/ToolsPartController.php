@@ -11,7 +11,7 @@ class ToolsPartController extends Controller
     public function index()
     {
         $toolsParts = ToolsPart::all();
-        return view('tools', compact('toolsParts'));
+        return view('/admin/tools', compact('toolsParts'));
     }
 
     // Simpan data baru
@@ -19,16 +19,22 @@ class ToolsPartController extends Controller
     {
         $request->validate([
             'description' => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
             'unit_price'  => 'required|numeric',
             'price'       => 'required|numeric',
             'remark'      => 'nullable|string',
         ]);
 
-        ToolsPart::create($request->all());
+        ToolsPart::create([
+            'description' => $request->description,
+            'unit'        => $request->unit,
+            'unit_price'  => $request->unit_price,
+            'price'       => $request->price,
+            'remark'      => $request->remark,
+            'quantity'    => 0,
+        ]);
 
-        return redirect()->route('tools.index')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
     }
 
     // Update data
@@ -36,16 +42,22 @@ class ToolsPartController extends Controller
     {
         $request->validate([
             'description' => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
             'unit_price'  => 'required|numeric',
             'price'       => 'required|numeric',
             'remark'      => 'nullable|string',
         ]);
 
-        $tool->update($request->all());
+        $tool->update([
+            'description' => $request->description,
+            'unit'        => $request->unit,
+            'unit_price'  => $request->unit_price,
+            'price'       => $request->price,
+            'remark'      => $request->remark,
+             // Quantity tidak diupdate di sini, karena diatur dari transaksi
+        ]);
 
-        return redirect()->route('tools.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->back()->with('success', 'Data berhasil diupdate.');
     }
 
     // Hapus data
@@ -53,6 +65,6 @@ class ToolsPartController extends Controller
     {
         $tool->delete();
 
-        return redirect()->route('tools.index')->with('success', 'Data berhasil dihapus.');
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }

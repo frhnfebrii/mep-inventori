@@ -11,7 +11,7 @@ class ElectricalPartController extends Controller
     public function index()
     {
         $electricalParts = ElectricalPart::all();
-        return view('electrical', compact('electricalParts'));
+        return view('/admin/electrical', compact('electricalParts'));
     }
 
     // Simpan data baru
@@ -21,13 +21,18 @@ class ElectricalPartController extends Controller
             'description' => 'required|string',
             'part_number' => 'required|string',
             'brand'       => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
         ]);
 
-        ElectricalPart::create($request->all());
+        ElectricalPart::create([
+            'description' => $request->description,
+            'part_number' => $request->part_number,
+            'brand'       => $request->brand,
+            'unit'        => $request->unit,
+            'quantity'    => 0, // Quantity fix 0 saat create
+        ]);
 
-        return redirect()->route('electrical.index')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
     }
 
     // Update data
@@ -37,13 +42,18 @@ class ElectricalPartController extends Controller
             'description' => 'required|string',
             'part_number' => 'required|string',
             'brand'       => 'required|string',
-            'quantity'    => 'required|integer',
             'unit'        => 'required|string',
         ]);
 
-        $electrical->update($request->all());
+        $electrical->update([
+            'description' => $request->description,
+            'part_number' => $request->part_number,
+            'brand'       => $request->brand,
+            'unit'        => $request->unit,
+            // Quantity tidak diupdate di sini, karena diatur dari transaksi
+        ]);
 
-        return redirect()->route('electrical.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->back()->with('success', 'Data berhasil diupdate.');
     }
 
     // Hapus data
@@ -51,6 +61,6 @@ class ElectricalPartController extends Controller
     {
         $electrical->delete();
 
-        return redirect()->route('electrical.index')->with('success', 'Data berhasil dihapus.');
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }
