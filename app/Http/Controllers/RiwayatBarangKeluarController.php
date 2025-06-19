@@ -17,7 +17,7 @@ class RiwayatBarangKeluarController extends Controller
         $toolsParts = ToolsPart::all();
         $instrumentParts = InstrumentPart::all();
 
-        return view('keluar', compact('riwayat', 'electricalParts', 'toolsParts', 'instrumentParts'));
+        return view('/admin/keluar', compact('riwayat', 'electricalParts', 'toolsParts', 'instrumentParts'));
     }
 
     public function store(Request $request)

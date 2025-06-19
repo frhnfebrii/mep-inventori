@@ -19,6 +19,6 @@ class LinkCardController extends Controller
         $barangmasukCount = RiwayatBarangMasuk::count();
         $barangkeluarCount = RiwayatBarangKeluar::count();
 
-        return view('dashboard', compact('electricalCount', 'instrumentCount', 'toolsCount', 'barangmasukCount', 'barangkeluarCount'));
+        return view('/admin/dashboard', compact('electricalCount', 'instrumentCount', 'toolsCount', 'barangmasukCount', 'barangkeluarCount'));
     }
 }

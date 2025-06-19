@@ -14,56 +14,39 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    // Proses login
     public function login(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+        // Validasi form
+        $credentials = $request->validate([
+            'username' => ['required'],
+            'password' => ['required'],
         ]);
 
-        // Ambil user berdasarkan email
-        $user = User::where('email', $request->email)->first();
-
-        // Cek password
-        if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
+        // Coba login
+        if (Auth::attempt($credentials, $request->has('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+
+            // Arahkan user sesuai rolenya
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/admin/dashboard');
+            } elseif (Auth::user()->role === 'executive') {
+                return redirect()->intended('/executive/dashboard');
+            }
+
+            // Fallback kalau role tidak diketahui
+            Auth::logout();
+            return back()->withErrors([
+                'username' => 'Role tidak dikenali.',
+            ]);
         }
 
         // Jika gagal login
         return back()->withErrors([
-            'email' => 'Email atau password salah.'
-        ])->onlyInput('email');
+            'username' => 'Username atau password salah.',
+        ])->onlyInput('username');
     }
 
-    public function showRegisterForm()
-    {
-        return view('auth.register'); // Pastikan kamu buat view ini
-    }
-
-    public function register(Request $request)
-    {
-        // Validasi input registrasi
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
-        ]);
-
-        // Buat user baru
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // Login otomatis setelah register
-        Auth::login($user);
-
-        return redirect()->intended('/');
-    }
 
     public function logout(Request $request)
     {

@@ -7,6 +7,7 @@ use App\Models\InstrumentPart;
 use App\Models\ToolsPart;
 use App\Models\ElectricalPart;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
@@ -89,12 +90,90 @@ if ($selectedCategory === 'all' || $selectedCategory === 'Electrical') {
 
 
         // Kirim ke blade
-        return view('laporan', [
+        return view('/admin/laporan', [
             'laporan' => $laporan,
             'selectedMonth' => $selectedMonth,
             'selectedCategory' => $selectedCategory,
             'startDate' => $startDate,
             'endDate' => $endDate,
         ]);
+    } // PASTIKAN ADA DI ATAS!
+
+public function exportPdf(Request $request)
+{
+    // Reuse logika filter dari index
+    $selectedMonth = $request->input('month', 'this_month');
+    $selectedCategory = $request->input('category', 'all');
+
+    if ($selectedMonth === 'last_month') {
+        $startDate = Carbon::now()->subMonthNoOverflow()->startOfMonth()->toDateString();
+        $endDate = Carbon::now()->subMonthNoOverflow()->endOfMonth()->toDateString();
+    } elseif (preg_match('/^\d{4}-\d{2}$/', $selectedMonth)) {
+        $startDate = Carbon::createFromFormat('Y-m', $selectedMonth)->startOfMonth()->toDateString();
+        $endDate = Carbon::createFromFormat('Y-m', $selectedMonth)->endOfMonth()->toDateString();
+    } else {
+        $startDate = Carbon::now()->startOfMonth()->toDateString();
+        $endDate = Carbon::now()->endOfMonth()->toDateString();
     }
+
+    $laporan = [];
+
+    $hitungLaporan = function ($item, $kategori) use ($startDate, $endDate) {
+        $masukBulanIni = $item->riwayatMasuk()
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->sum('quantity');
+        $keluarBulanIni = $item->riwayatKeluar()
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->sum('quantity');
+        $masukSampaiLalu = $item->riwayatMasuk()
+            ->where('tanggal', '<', $startDate)
+            ->sum('quantity');
+        $keluarSampaiLalu = $item->riwayatKeluar()
+            ->where('tanggal', '<', $startDate)
+            ->sum('quantity');
+
+        $stokAwal = $masukSampaiLalu - $keluarSampaiLalu;
+        $stokAkhir = $stokAwal + $masukBulanIni - $keluarBulanIni;
+
+        return [
+            'kategori' => $kategori,
+            'description' => $item->description,
+            'part_number' => $item->part_number ?? '-',
+            'brand' => $item->brand ?? '-',
+            'stok_awal' => $stokAwal,
+            'barang_masuk' => $masukBulanIni,
+            'barang_keluar' => $keluarBulanIni,
+            'stok_akhir' => $stokAkhir,
+        ];
+    };
+
+    if ($selectedCategory === 'all' || $selectedCategory === 'Instrument') {
+        foreach (InstrumentPart::all() as $item) {
+            $laporan[] = $hitungLaporan($item, 'Instrument');
+        }
+    }
+
+    if ($selectedCategory === 'all' || $selectedCategory === 'Tools') {
+        foreach (ToolsPart::all() as $item) {
+            $laporan[] = $hitungLaporan($item, 'Tools');
+        }
+    }
+
+    if ($selectedCategory === 'all' || $selectedCategory === 'Electrical') {
+        foreach (ElectricalPart::all() as $item) {
+            $laporan[] = $hitungLaporan($item, 'Electrical');
+        }
+    }
+
+    $pdf = Pdf::loadView('admin.laporan_pdf', [
+        'laporan' => $laporan,
+        'selectedMonth' => $selectedMonth,
+        'selectedCategory' => $selectedCategory,
+        'startDate' => $startDate,
+        'endDate' => $endDate,
+    ]);
+
+    return $pdf->download('laporan_stok_barang.pdf');
+}
+
 }

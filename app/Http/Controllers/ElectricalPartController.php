@@ -11,7 +11,7 @@ class ElectricalPartController extends Controller
     public function index()
     {
         $electricalParts = ElectricalPart::all();
-        return view('electrical', compact('electricalParts'));
+        return view('/admin/electrical', compact('electricalParts'));
     }
 
     // Simpan data baru
@@ -32,7 +32,7 @@ class ElectricalPartController extends Controller
             'quantity'    => 0, // Quantity fix 0 saat create
         ]);
 
-        return redirect()->route('electrical.index')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
     }
 
     // Update data
@@ -53,7 +53,7 @@ class ElectricalPartController extends Controller
             // Quantity tidak diupdate di sini, karena diatur dari transaksi
         ]);
 
-        return redirect()->route('electrical.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->back()->with('success', 'Data berhasil diupdate.');
     }
 
     // Hapus data
@@ -61,6 +61,6 @@ class ElectricalPartController extends Controller
     {
         $electrical->delete();
 
-        return redirect()->route('electrical.index')->with('success', 'Data berhasil dihapus.');
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }

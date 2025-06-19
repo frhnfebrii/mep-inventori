@@ -17,7 +17,7 @@ class RiwayatBarangMasukController extends Controller
         $toolsParts = ToolsPart::all();
         $instrumentParts = InstrumentPart::all();
 
-        return view('masuk', compact('riwayat', 'electricalParts', 'toolsParts', 'instrumentParts'));
+        return view('/admin/masuk', compact('riwayat', 'electricalParts', 'toolsParts', 'instrumentParts'));
     }
 
     public function store(Request $request)

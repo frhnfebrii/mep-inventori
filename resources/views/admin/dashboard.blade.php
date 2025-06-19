@@ -13,7 +13,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
       
       <!-- Electrical Part Card -->
-      <a href="/electrical">
+      <a href="/admin/electrical">
       <div class="bg-gradient-to-b from-blue-500 to-blue-300 border border-blue-200 p-6 rounded-lg shadow-sm ring-1 ring-gray-100 flex items-center justify-between hover:shadow-md transition duration-300">
         <div class="flex flex-col gap-1">
           <p class="text-slate-900 text-lg font-semibold">Electrical Part</p>
@@ -29,7 +29,7 @@
       </div></a>
 
       <!-- Informasi 2 -->
-      <a href="/instrument">
+      <a href="/admin/instrument">
       <div class="bg-gradient-to-b from-slate-400 to-slate-300 border border-slate-200 p-6 rounded-xl shadow-sm ring-1 ring-gray-100 flex items-center justify-between hover:shadow-md transition duration-300">
         <div class="flex flex-col gap-1">
           <p class="text-lg font-semibold text-slate-900">Instrument Part</p>
@@ -43,7 +43,7 @@
 
 
       <!-- Informasi 3 -->
-      <a href="/tools">
+      <a href="/admin/tools">
       <div class="bg-gradient-to-b from-amber-400 to-amber-200 border border-slate-200 p-6 rounded-xl shadow-sm ring-1 ring-gray-100 flex items-center justify-between hover:shadow-md transition duration-300">
         <div class="flex flex-col gap-1">
           <p class="text-lg font-semibold  text-gray-900">Tools Part</p>
@@ -57,7 +57,7 @@
 
 
     <!-- Baris Kedua -->
-    <a href="/masuk">
+    <a href="/admin/masuk">
     <div class="bg-gradient-to-b from-green-500 to-green-300 border border-slate-200 p-6 rounded-xl shadow-sm ring-1 ring-gray-100 flex items-center justify-between hover:shadow-md transition duration-300">
         <div class="flex flex-col gap-1">
           <p class="text-lg font-semibold text-gray-900">Barang Masuk</p>
@@ -70,7 +70,7 @@
         </div>
       </div></a>
 
-      <a href="/keluar">
+      <a href="/admin/keluar">
       <div class="bg-gradient-to-b from-red-500 to-red-300 border border-slate-200 p-6 rounded-xl shadow-sm ring-1 ring-gray-100 flex items-center justify-between hover:shadow-md transition duration-300">
         <div class="flex flex-col gap-1">
           <p class="text-lg font-semibold text-gray-900">Barang Keluar</p>

@@ -11,7 +11,7 @@ class ToolsPartController extends Controller
     public function index()
     {
         $toolsParts = ToolsPart::all();
-        return view('tools', compact('toolsParts'));
+        return view('/admin/tools', compact('toolsParts'));
     }
 
     // Simpan data baru
@@ -34,7 +34,7 @@ class ToolsPartController extends Controller
             'quantity'    => 0,
         ]);
 
-        return redirect()->route('tools.index')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
     }
 
     // Update data
@@ -57,7 +57,7 @@ class ToolsPartController extends Controller
             // Quantity tidak diupdate di sini, karena diatur dari transaksi
         ]);
 
-        return redirect()->route('tools.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->back()->with('success', 'Data berhasil diupdate.');
     }
 
     // Hapus data
@@ -65,6 +65,6 @@ class ToolsPartController extends Controller
     {
         $tool->delete();
 
-        return redirect()->route('tools.index')->with('success', 'Data berhasil dihapus.');
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }
